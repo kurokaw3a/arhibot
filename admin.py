@@ -21,7 +21,9 @@ async def send_info(message: Message):
     props = data["props"]
     new_props = data["new_props"]
     
-    await message.answer(f"Поддержка: @{admin}\nРеквизиты: {props}, {', '.join(new_props)}")
+    # await message.answer(f"Поддержка: @{admin}\nРеквизиты: {props}, {', '.join(new_props)}")
+    await message.answer(f"Поддержка: @{admin}")
+    
     path = os.path.join(IMG_DIR, "qr.jpg")
     
     if os.path.exists(path):
@@ -46,8 +48,10 @@ async def handle_admin(message: Message, state: FSMContext):
 async def handle_props_select(message: Message, state: FSMContext):
      
      props = message.text
+     data = database.get_bot_data()
+     propsd = data["props"]
      
-     if(props == constants.bot_props + " ⭐"):
+     if(props == propsd + " ⭐"):
       await state.set_state(EditBot.waiting_for_props)
       await message.answer("Введите новое значение:", reply_markup=main_cancel_kb())
      else:
@@ -58,7 +62,6 @@ async def handle_props_select(message: Message, state: FSMContext):
       for prop_id, props_value in data:
           if(props_value == props):
            await state.update_data(props_id=prop_id)
-           break
       
       await message.answer("Введите новое значение или удалите реквизит:", reply_markup=main_admin_props_edit_kb())
 

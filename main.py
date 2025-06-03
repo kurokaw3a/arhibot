@@ -21,7 +21,7 @@ import buttons
 IMG_DIR = "images"
 os.makedirs(IMG_DIR, exist_ok=True)
 
-TOKEN = "8199026275:AAFWZcKNBb4XACQ0xyy8khhtAZ03sii3dvk"
+TOKEN = "8157389548:AAEmiwTk1kX2MWJxjFPFDAWEEeyLGQ1qGyk"
 
 dp = Dispatcher(storage=MemoryStorage())
 
@@ -59,7 +59,7 @@ async def command_start_handler(message: Message, state) -> None:
     else:
      if status.status != "left" and message.chat.id != constants.replenish_chat_id and message.chat.id != constants.withdraw_chat_id and message.chat.id != constants.channel:
       await state.clear()
-      await message.answer(f"Привет, {html.bold(message.from_user.full_name)}!\n\n📲 Пополнение/Вывод: 0%\n⏳ Моментальные пополнения\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(message.from_user.username))
+      await message.answer(f"Добро пожаловать, {html.bold(message.from_user.full_name)}!\n\n💸 Пополнение/Вывод: 0%\n🚀 Моментальные пополнения\n\n🔰 Транзакции защищены службой безопасности 1X\n\nОператор: @" + constants.bot_admin, reply_markup=buttons.main_kb(message.from_user.username))
      else:
       await message.answer("Что-бы продолжить подпишитесь на канал", reply_markup=buttons.subscribe_kb())
         
@@ -72,13 +72,13 @@ async def cancel_handler(message: Message, state: FSMContext):
      await message.answer("Пожалуйста дождитесь финального ответа системы!")
 
 
-@dp.message(F.text == "📃 Инструкция")
+@dp.message(F.text == "📗 Инструкция")
 async def ins_handler(message: Message):
    await message.answer("Недоступно", reply_markup=buttons.main_kb(message.from_user.username))
 
 
 # 
-@dp.message(F.text == "⬆ Пополнить")
+@dp.message(F.text == "📱 Пополнить")
 async def replenish_handler(message: Message, state: FSMContext):
     status = await message.bot.get_chat_member(constants.channel, message.chat.id)
     if status.status == "kicked":
@@ -91,7 +91,7 @@ async def replenish_handler(message: Message, state: FSMContext):
      else:
       await message.answer("Что-бы продолжить подпишитесь на канал", reply_markup=buttons.subscribe_kb())
      
-@dp.message(F.text == "⬇ Вывести") 
+@dp.message(F.text == "📲 Вывести") 
 async def withdraw_handler(message: Message, state: FSMContext):
     status = await message.bot.get_chat_member(constants.channel, message.chat.id)
     if status.status == "kicked":
@@ -270,7 +270,7 @@ async def id_handler(message: Message, state: FSMContext) -> None:
             if id_length > 6:
                 await state.update_data(user_xbet_id=message.text)
                 await state.set_state(BotState.replenish_sum)
-                await message.answer("Укажите сумму пополнения KGS.\nМинимальная: 100\nМаксимальная: 100 000", reply_markup=buttons.main_cancel_kb())
+                await message.answer("Укажите сумму пополнения KGS.\nМинимальная: 200\nМаксимальная: 100 000", reply_markup=buttons.main_cancel_kb())
             else:
                 await message.answer("Слишком короткий ID")
         else:
@@ -281,7 +281,7 @@ async def sum_handler (message: Message, state: FSMContext) -> None:
     try: 
      if message.text.isdigit():
         user_sum = int(message.text)
-        if user_sum > 99 and user_sum < 100000:
+        if user_sum > 199 and user_sum < 100000:
             
             await state.set_state(BotState.replenish_check)       
             await state.update_data(amount=message.text)
@@ -384,7 +384,7 @@ async def query_handler(callback: CallbackQuery) -> None:
 @dp.callback_query(lambda c: c.data == "accept")
 async def query_handler(callback: CallbackQuery) -> None:
        username = database.get_username(callback.message.text)       
-       await callback.message.bot.send_message(callback.message.text, "✅ Ваш счет пополнен!", reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "Ваша завяка на пополнение счета была успешно обработна\n\n✅ Ваш счёт пополнен!", reply_markup=buttons.main_kb(username))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Одобрен")
        
@@ -398,7 +398,7 @@ async def query_handler(callback: CallbackQuery) -> None:
 @dp.callback_query(lambda c: c.data == "waccept")
 async def query_handler(callback: CallbackQuery) -> None:    
        username = database.get_username(callback.message.text)
-       await callback.message.bot.send_message(callback.message.text, "✅ Вывод прошёл успешно", reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "✅ Ваша завяка на вывод средств была успешно обработна\n\n", reply_markup=buttons.main_kb(username))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Одобрен")
        

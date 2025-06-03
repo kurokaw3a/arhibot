@@ -5,10 +5,10 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 def main_kb(username):
     kb_list = [
-        [KeyboardButton(text="⬆ Пополнить"), KeyboardButton(text="⬇ Вывести")],
-        [KeyboardButton(text="📃 Инструкция")]
+        [KeyboardButton(text="📱 Пополнить"), KeyboardButton(text="📲 Вывести")],
+        [KeyboardButton(text="📗 Инструкция")]
     ]
-    if username == "jbn9991" or username == "zetadmin" or username == "@jbb8891" or username == "@zetadmin":
+    if username == "jbn9991" or username == "Tegrhyx" or username == "@jbb8891" or username == "@Tegrhyx":
      kb_list.append([KeyboardButton(text="⚙️ Настройки")])
     keyboard = ReplyKeyboardMarkup(keyboard=kb_list, resize_keyboard=True, one_time_keyboard=True, input_field_placeholder="Что вы хотите сделать:")
     return keyboard
@@ -29,9 +29,9 @@ def main_id_kb(xid):
 def main_admin_kb():
     kb_list = [
         [KeyboardButton(text="Редактировать службу поддержки")],
-        [KeyboardButton(text="Редактировать реквизиты")],
+        # [KeyboardButton(text="Редактировать реквизиты")],
         [KeyboardButton(text="Загрузить другой QR")],
-        [KeyboardButton(text="Добавить реквизит")],
+        # [KeyboardButton(text="Добавить реквизит")],
         [KeyboardButton(text="Отменить")]
     ]
     keyboard = ReplyKeyboardMarkup(keyboard=kb_list, resize_keyboard=True, one_time_keyboard=True, input_field_placeholder="Что вы хотите сделать?")
@@ -60,9 +60,9 @@ def main_admin_props_edit_kb():
 
 def main_inline_replenish_kb():
     builder = InlineKeyboardBuilder()
-    builder.row(
-        InlineKeyboardButton(text="По номеру телефона (Любой банк)", callback_data="replenish1")
-    )
+    # builder.row(
+    #     InlineKeyboardButton(text="По номеру телефона (Любой банк)", callback_data="replenish1")
+    # )
     builder.row(
         InlineKeyboardButton(text="Через QR (Любой банк)", callback_data="replenish2")  
     )
@@ -105,7 +105,7 @@ def main_inline_admin_withdraw_kb():
 def subscribe_kb():
     builder = InlineKeyboardBuilder()
     builder.row(
-        InlineKeyboardButton(text="Подписаться", url="https://t.me/zetkassakg"),
+        InlineKeyboardButton(text="Подписаться", url="https://t.me/ArhiPayNews"),
         InlineKeyboardButton(text="Проверить", callback_data="subscribe"),
     )
     keyboard = InlineKeyboardMarkup(inline_keyboard=builder.export())

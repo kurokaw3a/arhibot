@@ -6,14 +6,10 @@ bot_admin = data["admin"] or "none"
 bot_props = data["props"] or "none"
 bot_new_props = data["new_props"] or "none"
 
-channel = "-1002346029421"
-channel_link = "https://t.me/zetkassakg"
+channel = "-1002665316791"
+channel_link = "https://t.me/ArhiPayNews"
 
 chat = ""
 
-replenish_chat_id = "-4956582599"
-withdraw_chat_id = "-4935364436"
-
-
-city = ""
-street = ""
+replenish_chat_id = "-4965250408"
+withdraw_chat_id = "-4874156588"
