@@ -59,7 +59,7 @@ async def command_start_handler(message: Message, state) -> None:
     else:
      if status.status != "left" and message.chat.id != constants.replenish_chat_id and message.chat.id != constants.withdraw_chat_id and message.chat.id != constants.channel:
       await state.clear()
-      await message.answer(f"Добро пожаловать, {html.bold(message.from_user.full_name)}!\n\n💸 Пополнение/Вывод: 0%\n🚀 Моментальные пополнения\n\n🔰 Транзакции защищены службой безопасности 1X\n\nОператор: @" + constants.bot_admin, reply_markup=buttons.main_kb(message.from_user.username))
+      await message.answer(f"Добро пожаловать, {html.bold(message.from_user.full_name)}!\n\n💸 Пополнение/Вывод: 0%\n🚀 Моментальные пополнения\n\n🔰 Транзакции защищены службой безопасности 1X\n\nОператор: @" + constants.bot_admin, reply_markup=buttons.main_kb(message.from_user.id))
      else:
       await message.answer("Что-бы продолжить подпишитесь на канал", reply_markup=buttons.subscribe_kb())
         
@@ -74,7 +74,7 @@ async def cancel_handler(message: Message, state: FSMContext):
 
 @dp.message(F.text == "📗 Инструкция")
 async def ins_handler(message: Message):
-   await message.answer("Недоступно", reply_markup=buttons.main_kb(message.from_user.username))
+   await message.answer("Недоступно", reply_markup=buttons.main_kb(message.from_user.id))
 
 
 # 
@@ -177,7 +177,7 @@ async def withdraw_props_handler(message: Message, state: FSMContext) -> None:
             if xid:
              await message.answer("Введите ID(Номер счёта) 1X!", reply_markup=buttons.main_id_kb(xid))
             else:
-             await message.answer("🚩 Вывод доступен только тем пользователям, которые\nосуществляли пополнение через нашего бота", reply_markup=buttons.main_kb(message.from_user.username))
+             await message.answer("🚩 Вывод доступен только тем пользователям, которые\nосуществляли пополнение через нашего бота", reply_markup=buttons.main_kb(message.from_user.id))
              state.clear()
         else:
             await message.answer("Слишком короткий номер")
@@ -343,7 +343,7 @@ async def timer(message: Message, state: FSMContext, duration: int = 300):
     if current_state == BotState.replenish_check.state:
         await message.answer(
             "⏰ Время на оплату вышло. Если вы не отправили чек — операция отменена.",
-            reply_markup=buttons.main_kb(message.from_user.username)
+            reply_markup=buttons.main_kb(message.from_user.id)
         )
         await state.clear()
         
@@ -377,35 +377,33 @@ async def query_handler(callback: CallbackQuery) -> None:
     status = await callback.message.bot.get_chat_member(constants.channel, callback.message.chat.id)
     
     if status.status != "left":
-        await callback.message.answer(f"Привет, {html.bold(callback.message.from_user.full_name)}!\n\n📲 Пополнение/Вывод: 0%\n⏳ Моментальные пополнения\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(callback.message.from_user.username))
+        await callback.message.answer(f"Привет, {html.bold(callback.message.from_user.full_name)}!\n\n📲 Пополнение/Вывод: 0%\n⏳ Моментальные пополнения\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(callback.message.from_user.id))
     else:
         await callback.bot.answer_callback_query(callback_query_id=callback.id, text='Вы не подписались!')
 
 @dp.callback_query(lambda c: c.data == "accept")
 async def query_handler(callback: CallbackQuery) -> None:
-       username = database.get_username(callback.message.text)       
-       await callback.message.bot.send_message(callback.message.text, "Ваша завяка на пополнение счета была успешно обработна\n\n✅ Ваш счёт пополнен!", reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "Ваша завяка на пополнение счета была успешно обработна\n\n✅ Ваш счёт пополнен!", reply_markup=buttons.main_kb(callback.message.from_user.id))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Одобрен")
        
 @dp.callback_query(lambda c: c.data == "cancel")
 async def query_handler(callback: CallbackQuery) -> None:       
-       username = database.get_username(callback.message.text)
-       await callback.message.bot.send_message(callback.message.text, "❌ Ваша заявка была отклонена. Проверьте 1X ID или ЧЕК который вы отправили.\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "❌ Ваша заявка была отклонена. Проверьте 1X ID или ЧЕК который вы отправили.\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(callback.message.from_user.id))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Отклонён")
        
 @dp.callback_query(lambda c: c.data == "waccept")
 async def query_handler(callback: CallbackQuery) -> None:    
        username = database.get_username(callback.message.text)
-       await callback.message.bot.send_message(callback.message.text, "✅ Ваша завяка на вывод средств была успешно обработна\n\n", reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "✅ Ваша завяка на вывод средств была успешно обработна\n\n", reply_markup=buttons.main_kb(callback.message.from_user.id))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Одобрен")
        
 @dp.callback_query(lambda c: c.data == "wcancel")
 async def query_handler(callback: CallbackQuery) -> None:    
        username = database.get_username(callback.message.text)
-       await callback.message.bot.send_message(callback.message.text, "❌ Ваша заявка была отклонена. Проверьте 1X ID или НОМЕР который вы отправили.\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(username))
+       await callback.message.bot.send_message(callback.message.text, "❌ Ваша заявка была отклонена. Проверьте 1X ID или НОМЕР который вы отправили.\n\nСлужба поддержки: @" + constants.bot_admin, reply_markup=buttons.main_kb(callback.message.from_user.id))
        await callback.message.edit_reply_markup(None)
        await callback.message.edit_text("Отклонён")
        
