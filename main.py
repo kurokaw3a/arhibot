@@ -305,7 +305,7 @@ async def sum_handler (message: Message, state: FSMContext) -> None:
              await message.answer(f"Сумма к оплате: {html.code(message.text)}" + "\n\nРекзвизиты: " + html.code(random_props) + "\nНажмите чтобы скопировать ☝\n\nОтправьте УКАЗАННУЮ СУММУ\nна счёт и ОТПРАВЬТЕ ЧЕК")
             asyncio.create_task(timer(message, state))
         else:
-            await message.answer("\nМинимальная: 100\nМаксимальная: 100 000")   
+            await message.answer("\nМинимальная: 200\nМаксимальная: 100 000")   
      else:
         await message.answer("Введите сумму пополнения!")  
     except TypeError:
