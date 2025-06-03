@@ -63,6 +63,9 @@ async def command_start_handler(message: Message, state) -> None:
      else:
       await message.answer("Что-бы продолжить подпишитесь на канал", reply_markup=buttons.subscribe_kb())
 
+@dp.message(F.text == "getgroupid")
+async def gid_handler(message: Message, state: FSMContext):
+    await message.answer(message.chat.id)
         
 @dp.message(F.text == "Отменить")
 async def cancel_handler(message: Message, state: FSMContext):
