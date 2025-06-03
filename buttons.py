@@ -8,7 +8,7 @@ def main_kb(username):
         [KeyboardButton(text="📱 Пополнить"), KeyboardButton(text="📲 Вывести")],
         [KeyboardButton(text="📗 Инструкция")]
     ]
-    if username == "jbn9991" or username == "Tegrhyx" or username == "@jbb8891" or username == "@Tegrhyx":
+    if username == "jbn9991" or username == "Tegrhyx" or username == "ArchitectKapper":
      kb_list.append([KeyboardButton(text="⚙️ Настройки")])
     keyboard = ReplyKeyboardMarkup(keyboard=kb_list, resize_keyboard=True, one_time_keyboard=True, input_field_placeholder="Что вы хотите сделать:")
     return keyboard
