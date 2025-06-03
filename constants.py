@@ -11,5 +11,5 @@ channel_link = "https://t.me/ArhiPayNews"
 
 chat = ""
 
-replenish_chat_id = "-4965250408"
-withdraw_chat_id = "-4874156588"
+replenish_chat_id = "-2648262339"
+withdraw_chat_id = "-2645195015"
