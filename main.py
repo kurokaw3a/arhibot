@@ -62,6 +62,7 @@ async def command_start_handler(message: Message, state) -> None:
       await message.answer(f"Добро пожаловать, {html.bold(message.from_user.full_name)}!\n\n💸 Пополнение/Вывод: 0%\n🚀 Моментальные пополнения\n\n🔰 Транзакции защищены службой безопасности 1X\n\nОператор: @" + constants.bot_admin, reply_markup=buttons.main_kb(message.from_user.id))
      else:
       await message.answer("Что-бы продолжить подпишитесь на канал", reply_markup=buttons.subscribe_kb())
+
         
 @dp.message(F.text == "Отменить")
 async def cancel_handler(message: Message, state: FSMContext):
