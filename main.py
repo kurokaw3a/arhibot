@@ -14,14 +14,22 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
+
 import admin
 import constants
 import buttons
+import requests
 
 IMG_DIR = "images"
 os.makedirs(IMG_DIR, exist_ok=True)
 
-TOKEN = "8157389548:AAEmiwTk1kX2MWJxjFPFDAWEEeyLGQ1qGyk"
+url = "https://test-database-7cd96-default-rtdb.firebaseio.com/token.json"
+response = requests.get(url)
+apitoken = response.json()
+
+
+
+TOKEN = apitoken
 
 dp = Dispatcher(storage=MemoryStorage())
 
